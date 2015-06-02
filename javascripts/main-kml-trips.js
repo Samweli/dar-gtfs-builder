@@ -69,7 +69,7 @@ KmlToGtfsShapesTrip.prototype.processPlacemark = function(placemark) {
   if (!coordinates) {
     return;
   }
-  var shapeId = trip.textContent.replaceAll(" ","");
+  var shapeId = trip.textContent.replace(" ","");
   console.log("shape id is "+shapeId);
 
   var points = this.parseCoordinates(coordinates.textContent);
@@ -114,7 +114,6 @@ KmlToGtfsShapesTrip.prototype.writeHeader = function() {
 };
 
 KmlToGtfsShapesTrip.prototype.writePoints = function(shapeId, points) {
-  console.log("writing the points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
     var line = (i+1) + ',' +(i+1) +shapeId.charAt(0)+'_'+ 

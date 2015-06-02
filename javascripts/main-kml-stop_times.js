@@ -52,7 +52,6 @@ KmlToGtfsShapesTimes.prototype.processPlacemark = function(placemark) {
   var name = this.getElementByTagName(placemark, 'name');
 
   if (!name) {
-    console.log("no name");
     return;
   }
 var eData = this.getElementByTagName(placemark, 'ExtendedData');
@@ -72,19 +71,16 @@ var eData = this.getElementByTagName(placemark, 'ExtendedData');
    var trip = sData[2];
 
    if(!trip){
-    console.log("no trip");
     return;
    }
 
 
   var point = this.getElementByTagName(placemark, 'Point');
   if (!point) {
-    console.log("no point");
     return;
   }
   var coordinates = this.getElementByTagName(point, 'coordinates');
   if (!coordinates) {
-    console.log("no coordinates");
     return;
   }
   var shapeId = name.textContent;
@@ -127,7 +123,6 @@ KmlToGtfsShapesTimes.prototype.writeHeader = function() {
 };
 
 KmlToGtfsShapesTimes.prototype.writePoints = function(shapeId, points,trip) {
-  console.log("writing points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
     var d = new Date(1433246458982 + counter * 3000 * 60);

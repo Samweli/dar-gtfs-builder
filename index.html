@@ -7,7 +7,9 @@
     <meta name="description" content="kml-to-gtfs-shapes : Simple utility to convert a KML file into a GTFS shapes.txt file.">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-    <script type="text/javascript" src="javascripts/main.js"></script>
+    
+
+    <script type="text/javascript" src="javascripts/check.js"></script>
 
     <title>Dar es salaam | Generating of GTFS </title>
   </head>
@@ -46,7 +48,13 @@
 
 
 
-<input type="button" id="convert-button" value="Convert" disabled="true">
+<input type="button" id="convert-button-stops" value="Convert To Stops" >
+<input type="button" id="convert-button-routes" value="Convert To Routes" >
+<input type="button" id="convert-button-trips" value="Convert To Trips" >
+<input type="button" id="convert-button-stoptimes" value="Convert To StopTimes" >
+
+
+<input type="button" id="convert-button-all" value="Convert To all" >
 
 <section>
 <h3>Output</h3>
@@ -68,9 +76,15 @@
         
       </footer>
     </div>
+    
+    <script type="text/javascript" src="javascripts/main-kml-stop_times.js"></script>
+     <script type="text/javascript" src="javascripts/main-kml-stops.js"></script>
+    <script type="text/javascript" src="javascripts/main-kml-routes.js"></script>
+    <script type="text/javascript" src="javascripts/main-kml-trips.js"></script>
 
     <script type="text/javascript">
-      kml_to_gtfs_shapes_init();
+
+      check();
     </script>
 
 <script>

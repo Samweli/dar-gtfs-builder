@@ -1,14 +1,14 @@
-function KmlToGtfsShapes(outputElement) {
+function KmlToGtfsShapesStop(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
   this._generateReverseShapes = false;
 }
 
-KmlToGtfsShapes.prototype.setGenerateReverseShapes = function(enabled) {
+KmlToGtfsShapesStop.prototype.setGenerateReverseShapes = function(enabled) {
   this._generateReverseShapes = enabled;
 }
 
-KmlToGtfsShapes.prototype.handleFileSelect = function(files) {
+KmlToGtfsShapesStop.prototype.handleFileSelect = function(files) {
   if (files.length != 1) {
     console.log('Expected just one file.');
     return false;
@@ -17,7 +17,7 @@ KmlToGtfsShapes.prototype.handleFileSelect = function(files) {
   return true;
 }
 
-KmlToGtfsShapes.prototype.convert = function() {
+KmlToGtfsShapesStop.prototype.convert = function() {
   if (!this._file) {
     console.log('no file specified');
     return;
@@ -34,7 +34,7 @@ KmlToGtfsShapes.prototype.convert = function() {
   reader.readAsText(this._file);
 };
 
-KmlToGtfsShapes.prototype.handleFileRead = function(text) {
+KmlToGtfsShapesStop.prototype.handleFileRead = function(text) {
   var parser = new DOMParser();
   var xml = parser.parseFromString(text,"text/xml");
   var placemarks = xml.getElementsByTagName('Placemark');
@@ -43,7 +43,7 @@ KmlToGtfsShapes.prototype.handleFileRead = function(text) {
   }
 };
 
-KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
+KmlToGtfsShapesStop.prototype.processPlacemark = function(placemark) {
   var name = this.getElementByTagName(placemark, 'name');
 
   if (!name) {
@@ -52,7 +52,7 @@ KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
   }
   var point = this.getElementByTagName(placemark, 'Point');
   if (!point) {
-    console.log("no lineString");
+    console.log("no point");
     return;
   }
   var coordinates = this.getElementByTagName(point, 'coordinates');
@@ -68,7 +68,7 @@ KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
   }
 };
 
-KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
+KmlToGtfsShapesStop.prototype.getElementByTagName = function(element, name) {
   for (var i = 0; i < element.childNodes.length; ++i) {
     if (element.childNodes[i].nodeName == name) {
       return element.childNodes[i];
@@ -77,7 +77,7 @@ KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
   return null;
 };
 
-KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
+KmlToGtfsShapesStop.prototype.parseCoordinates = function(text) {
   var points = [];
   var tokens = text.split(" ");
   for (var i = 0; i < tokens.length; ++i) {
@@ -94,12 +94,12 @@ KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
   return points;
 };
 
-KmlToGtfsShapes.prototype.writeHeader = function() {
+KmlToGtfsShapesStop.prototype.writeHeader = function() {
   this._outputElement.value =
     'stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,timepoint\n';
 };
 
-KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
+KmlToGtfsShapesStop.prototype.writePoints = function(shapeId, points) {
   console.log("writing points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
@@ -109,13 +109,13 @@ KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
   }
 }
 
-function kml_to_gtfs_shapes_init() {
-  var converter = new KmlToGtfsShapes(document.getElementById('output'));
+function kml_to_gtfs_shapes_init_stops() {
+  var converter = new KmlToGtfsShapesStop(document.getElementById('output'));
 
   document.getElementById('file').addEventListener(
     'change', function(event) {
       var ready = converter.handleFileSelect(event.target.files);
-      document.getElementById('convert-button').disabled = !ready;
+      document.getElementById('convert-button-stops').disabled = !ready;
     });
 
   document.getElementById('generate-reverse-shapes').addEventListener(
@@ -123,7 +123,7 @@ function kml_to_gtfs_shapes_init() {
       converter.setGenerateReverseShapes(event.target.checked);
     });
 
-  document.getElementById('convert-button').addEventListener(
+  document.getElementById('convert-button-stops').addEventListener(
     'click', function(event) {
       converter.convert();
     });

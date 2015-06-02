@@ -1,0 +1,7 @@
+ trip + ','+ str +  ','+ str+ ',' +',' + shapeId + ',' + counter + ',,0,0\n';
+
+
+
+ 
+    var d = new Date(date.getTime() + counter * 6000);
+    var str = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();

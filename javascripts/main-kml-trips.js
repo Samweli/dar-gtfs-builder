@@ -59,26 +59,20 @@ KmlToGtfsShapesTrip.prototype.processPlacemark = function(placemark) {
    if(!sData){
      return;
    }
-   var name = sData[2];
-  if (!name) {
+   var trip = sData[2];
+
+  var point = this.getElementByTagName(placemark, 'Point');
+  if (!point) {
     return;
   }
-  var multiGeometry = this.getElementByTagName(placemark,"MultiGeometry");
-  if(!multiGeometry){
-    return ;
-  }
-  var lineString = this.getElementByTagName(multiGeometry, 'LineString');
-  if (!lineString) {;
-    return;
-  }
-  var coordinates = this.getElementByTagName(lineString, 'coordinates');
+  var coordinates = this.getElementByTagName(point, 'coordinates');
   if (!coordinates) {
     return;
   }
-  var shapeId = name.textContent;
+  var shapeId = trip.textContent.replaceAll(" ","");
+  console.log("shape id is "+shapeId);
 
   var points = this.parseCoordinates(coordinates.textContent);
-  console.log(this._outputElement.value+', '+shapeId);
   if(this._outputElement.value.indexOf(shapeId) == -1){
       this.writePoints(shapeId, points);
   }
@@ -123,7 +117,11 @@ KmlToGtfsShapesTrip.prototype.writePoints = function(shapeId, points) {
   console.log("writing the points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
-    var line = i + ',' +shapeId.charAt(0)+'_'+ shapeId.charAt(shapeId.length - 3)+shapeId.charAt(shapeId.length - 2)+shapeId.charAt(shapeId.length - 1) + ',' + shapeId.charAt(0)+shapeId.charAt(shapeId.length - 3)+shapeId.charAt(shapeId.length - 2)+shapeId.charAt(shapeId.length - 1)+',' + shapeId +',' + '1' + ',' + ',' + shapeId + '\n';
+    var line = (i+1) + ',' +(i+1) +shapeId.charAt(0)+'_'+ 
+    shapeId.charAt(shapeId.length - 3)+shapeId.charAt(shapeId.length - 2)+
+    shapeId.charAt(shapeId.length - 1) + ',' + shapeId.charAt(0)+
+    shapeId.charAt(shapeId.length - 3)+shapeId.charAt(shapeId.length - 2)+
+    shapeId.charAt(shapeId.length - 1)+',' + shapeId +',' + '1' + ',' + ',' + shapeId + '\n';
     this._outputElement.value += line;
     return;
   }

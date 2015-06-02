@@ -21,7 +21,7 @@
         <header class="inner">
           
 
-          <h1 id="project_title">Dar GTFS Creator</h1>
+          <h1 id="project_title">Dar GTFS Builder</h1>
         
         </header>
     </div>
@@ -32,24 +32,27 @@
 
 
 <section>
-<h3>Inputs</h3>
+<h3>Input KML file:</h3><p>The one that you have generated from the route shapefile</p>
 
-<h4>KML File</h4>
+<input type="file" id="file" 
+style="
+background-color:white;
+border-radius:5px;
+border:#CCCCCC;
+font-size:16px;" name="file" />
+<br><br>
 
-<p>Input KML file:</p>
-
-<input type="file" id="file" name="file" />
-
-<h4>Reverse Shapes</h4>
+<h4 style="display:none;">Reverse Shapes</h4>
 
 
-<input type="checkbox" id="generate-reverse-shapes" > Generate reverse shapes
+<input type="checkbox" id="generate-reverse-shapes" style="display:none;" > 
+<span style="display:none;" >Generate reverse shapes</span>
 </section>
 
 
 
 
-<input type="button" id="convert-button-stops" value="Convert To Stops" >
+<input type="button" id="convert-button-stops"  value="Convert To Stops" >
 <input type="button" id="convert-button-routes" value="Convert To Routes" >
 <input type="button" id="convert-button-trips" value="Convert To Trips" >
 <input type="button" id="convert-button-stoptimes" value="Convert To StopTimes" >
@@ -59,7 +62,7 @@
 
 
 <section>
-<h3>Output</h3>
+<br><br>
 <p>The content of the generated file will be written here:</p>
 <textarea id="output" rows="10"></textarea>
 </section>

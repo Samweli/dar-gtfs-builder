@@ -1,3 +1,4 @@
+
 function KmlToGtfsShapesRoute(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
@@ -40,25 +41,41 @@ KmlToGtfsShapesRoute.prototype.handleFileRead = function(text) {
   var placemarks = xml.getElementsByTagName('Placemark');
   for (var i = 0; i < placemarks.length; ++i) {
     this.processPlacemark(placemarks[i]);
+    return;
   }
 };
 
 KmlToGtfsShapesRoute.prototype.processPlacemark = function(placemark) {
-  var name = this.getElementByTagName(placemark, 'name');
-  if (!name) {
+ 
+
+var eData = this.getElementByTagName(placemark, 'ExtendedData');
+  if(!eData){
     return;
   }
-  var lineString = this.getElementByTagName(placemark, 'LineString');
-  if (!lineString) {
+
+   var shData = this.getElementByTagName(eData, 'SchemaData');
+   if(!shData){
     return;
   }
-  var coordinates = this.getElementByTagName(lineString, 'coordinates');
+   var sData = shData.getElementsByTagName('SimpleData');
+
+   if(!sData){
+     return;
+   }
+   var route = sData[2];
+
+  var point = this.getElementByTagName(placemark, 'Point');
+  if (!point) {
+    return;
+  }
+  var coordinates = this.getElementByTagName(point, 'coordinates');
   if (!coordinates) {
     return;
   }
-  var shapeId = name.textContent;
+  var shapeId = route.textContent;
   var points = this.parseCoordinates(coordinates.textContent);
   this.writePoints(shapeId, points);
+
   if (this._generateReverseShapes) {
     this.writePoints(shapeId + '-reverse', points.reverse());
   }
@@ -92,13 +109,14 @@ KmlToGtfsShapesRoute.prototype.parseCoordinates = function(text) {
 
 KmlToGtfsShapesRoute.prototype.writeHeader = function() {
   this._outputElement.value =
-    'shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence\n';
+    'route_id,agency_id,route_short_name,route_long_name,route_desc,'+
+     'route_type,route_url,route_color,route_text_color\n';
 };
 
 KmlToGtfsShapesRoute.prototype.writePoints = function(shapeId, points) {
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
-    var line = shapeId + ',' + point.lat + ',' + point.lng + ',' + i + '\n';
+    var line =  '1,daladala,1,' + shapeId + ',,3,,,'+ '\n';
     this._outputElement.value += line;
   }
 }

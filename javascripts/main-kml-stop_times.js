@@ -89,7 +89,7 @@ var eData = this.getElementByTagName(placemark, 'ExtendedData');
   }
   var shapeId = name.textContent;
   var points = this.parseCoordinates(coordinates.textContent);
-  this.writePoints(shapeId, points,trip);
+  this.writePoints(shapeId, points,trip.textContent.replace(" ",""));
   if (this._generateReverseShapes) {
     this.writePoints(shapeId + '-reverse', points.reverse());
   }
@@ -139,7 +139,10 @@ KmlToGtfsShapesTimes.prototype.writePoints = function(shapeId, points,trip) {
        str = (d.getHours()< 10?"0"+d.getHours():d.getHours()) +":"+d.getMinutes()+":"+d.getSeconds();
     }
     
-    var line = trip + ','+ str +  ','+ str+ ',' + shapeId + ',' + counter + ',,0,0\n';
+    var line =  trip.charAt(0)+
+    trip.charAt(trip.length - 3)+trip.charAt(trip.length - 2)+
+    trip.charAt(trip.length - 1) +
+     ','+ str +  ','+ str+ ',' + shapeId + ',' + counter + ',,0,0\n';
     this._outputElement.value += line;
     counter++;
     

@@ -124,6 +124,4 @@ function kml_to_gtfs_shapes_init() {
     });
 
 }
-=======
 console.log('This would be the main JS file.');
->>>>>>> c1b0c21418a469798c254c47adee207d663b7887

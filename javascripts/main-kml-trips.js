@@ -1,14 +1,14 @@
-function KmlToGtfsShapes(outputElement) {
+function KmlToGtfsShapesTrip(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
   this._generateReverseShapes = false;
 }
 
-KmlToGtfsShapes.prototype.setGenerateReverseShapes = function(enabled) {
+KmlToGtfsShapesTrip.prototype.setGenerateReverseShapes = function(enabled) {
   this._generateReverseShapes = enabled;
 }
 
-KmlToGtfsShapes.prototype.handleFileSelect = function(files) {
+KmlToGtfsShapesTrip.prototype.handleFileSelect = function(files) {
   if (files.length != 1) {
     console.log('Expected just one file.');
     return false;
@@ -17,7 +17,7 @@ KmlToGtfsShapes.prototype.handleFileSelect = function(files) {
   return true;
 }
 
-KmlToGtfsShapes.prototype.convert = function() {
+KmlToGtfsShapesTrip.prototype.convert = function() {
   if (!this._file) {
     console.log('no file specified');
     return;
@@ -34,7 +34,7 @@ KmlToGtfsShapes.prototype.convert = function() {
   reader.readAsText(this._file);
 };
 
-KmlToGtfsShapes.prototype.handleFileRead = function(text) {
+KmlToGtfsShapesTrip.prototype.handleFileRead = function(text) {
   var parser = new DOMParser();
   var xml = parser.parseFromString(text,"text/xml");
   var placemarks = xml.getElementsByTagName('Placemark');
@@ -43,7 +43,7 @@ KmlToGtfsShapes.prototype.handleFileRead = function(text) {
   }
 };
 
-KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
+KmlToGtfsShapesTrip.prototype.processPlacemark = function(placemark) {
 
   var eData = this.getElementByTagName(placemark, 'ExtendedData');
   if(!eData){
@@ -88,7 +88,7 @@ KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
 };
 
 
-KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
+KmlToGtfsShapesTrip.prototype.getElementByTagName = function(element, name) {
   for (var i = 0; i < element.childNodes.length; ++i) {
     if (element.childNodes[i].nodeName == name) {
       return element.childNodes[i];
@@ -97,7 +97,7 @@ KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
   return null;
 };
 
-KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
+KmlToGtfsShapesTrip.prototype.parseCoordinates = function(text) {
   var points = [];
   var tokens = text.split(" ");
   for (var i = 0; i < tokens.length; ++i) {
@@ -114,12 +114,12 @@ KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
   return points;
 };
 
-KmlToGtfsShapes.prototype.writeHeader = function() {
+KmlToGtfsShapesTrip.prototype.writeHeader = function() {
   this._outputElement.value =
     'route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id\n';
 };
 
-KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
+KmlToGtfsShapesTrip.prototype.writePoints = function(shapeId, points) {
   console.log("writing the points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
@@ -129,13 +129,13 @@ KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
   }
 }
 
-function kml_to_gtfs_shapes_init() {
-  var converter = new KmlToGtfsShapes(document.getElementById('output'));
+function kml_to_gtfs_shapes_init_trips() {
+  var converter = new KmlToGtfsShapesTrip(document.getElementById('output'));
 
   document.getElementById('file').addEventListener(
     'change', function(event) {
       var ready = converter.handleFileSelect(event.target.files);
-      document.getElementById('convert-button').disabled = !ready;
+      document.getElementById('convert-button-trips').disabled = !ready;
     });
 
   document.getElementById('generate-reverse-shapes').addEventListener(
@@ -143,7 +143,7 @@ function kml_to_gtfs_shapes_init() {
       converter.setGenerateReverseShapes(event.target.checked);
     });
 
-  document.getElementById('convert-button').addEventListener(
+  document.getElementById('convert-button-trips').addEventListener(
     'click', function(event) {
       converter.convert();
     });

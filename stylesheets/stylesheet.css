@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 @import url(pygment_trac.css);
 
@@ -280,10 +278,12 @@ Full-Width Styles
 
 #header_wrap {
   background-color: steelblue;
+  background-image: url(../images/dar.jpg);
+  background-size: cover;
 }
 
 #header_wrap .inner {
-  padding: 50px 10px 30px 10px;
+  padding: 120px 10px 90px 10px;
 }
 
 #project_title {
@@ -417,11 +417,6 @@ Small Device Styles
 #output {
   width: 100%;
 }
-=======
-=======
->>>>>>> c1b0c21418a469798c254c47adee207d663b7887
-* {
-  box-sizing: border-box; }
 
 body {
   padding: 0;

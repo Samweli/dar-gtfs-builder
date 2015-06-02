@@ -2,18 +2,18 @@ var date = new Date();
 var counter = 1;
 
 
-function KmlToGtfsShapes(outputElement) {
+function KmlToGtfsShapesTimes(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
   this._generateReverseShapes = false;
 
 }
 
-KmlToGtfsShapes.prototype.setGenerateReverseShapes = function(enabled) {
+KmlToGtfsShapesTimes.prototype.setGenerateReverseShapes = function(enabled) {
   this._generateReverseShapes = enabled;
 }
 
-KmlToGtfsShapes.prototypehandleFileSelect = function(files) {
+KmlToGtfsShapesTimes.prototype.handleFileSelect = function(files) {
   if (files.length != 1) {
     console.log('Expected just one file.');
     return false;
@@ -22,7 +22,7 @@ KmlToGtfsShapes.prototypehandleFileSelect = function(files) {
   return true;
 }
 
-KmlToGtfsShapes.prototype.convert = function() {
+KmlToGtfsShapesTimes.prototype.convert = function() {
   if (!this._file) {
     console.log('no file specified');
     return;
@@ -39,7 +39,7 @@ KmlToGtfsShapes.prototype.convert = function() {
   reader.readAsText(this._file);
 };
 
-KmlToGtfsShapes.prototype.handleFileRead = function(text) {
+KmlToGtfsShapesTimes.prototype.handleFileRead = function(text) {
   var parser = new DOMParser();
   var xml = parser.parseFromString(text,"text/xml");
   var placemarks = xml.getElementsByTagName('Placemark');
@@ -48,7 +48,7 @@ KmlToGtfsShapes.prototype.handleFileRead = function(text) {
   }
 };
 
-KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
+KmlToGtfsShapesTimes.prototype.processPlacemark = function(placemark) {
   var name = this.getElementByTagName(placemark, 'name');
 
   if (!name) {
@@ -95,7 +95,7 @@ var eData = this.getElementByTagName(placemark, 'ExtendedData');
   }
 };
 
-KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
+KmlToGtfsShapesTimes.prototype.getElementByTagName = function(element, name) {
   for (var i = 0; i < element.childNodes.length; ++i) {
     if (element.childNodes[i].nodeName == name) {
       return element.childNodes[i];
@@ -104,7 +104,7 @@ KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
   return null;
 };
 
-KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
+KmlToGtfsShapesTimes.prototype.parseCoordinates = function(text) {
   var points = [];
   var tokens = text.split(" ");
   for (var i = 0; i < tokens.length; ++i) {
@@ -121,31 +121,38 @@ KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
   return points;
 };
 
-KmlToGtfsShapes.prototype.writeHeader = function() {
+KmlToGtfsShapesTimes.prototype.writeHeader = function() {
   this._outputElement.value =
     'trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign,pickup_type,drop_off_type\n';
 };
 
-KmlToGtfsShapes.prototype.writePoints = function(shapeId, points,trip) {
+KmlToGtfsShapesTimes.prototype.writePoints = function(shapeId, points,trip) {
   console.log("writing points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
-    var d = new Date(date.getTime() + counter * 6000);
-    var str = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
-    var line = trip + ','+ str +  ','+ str+ ',' +',' + shapeId + ',' + counter + ',,0,0\n';
+    var d = new Date(1433246458982 + counter * 3000 * 60);
+    d.setHours(07);
+     var str = "";
+    if(d.getMinutes() < 10){
+       str = (d.getHours()< 10?"0"+d.getHours():d.getHours()) +":0"+d.getMinutes()+":"+d.getSeconds();
+    }else{
+       str = (d.getHours()< 10?"0"+d.getHours():d.getHours()) +":"+d.getMinutes()+":"+d.getSeconds();
+    }
+    
+    var line = trip + ','+ str +  ','+ str+ ',' + shapeId + ',' + counter + ',,0,0\n';
     this._outputElement.value += line;
     counter++;
     
   }
 }
 
-function kml_to_gtfs_shapes_init() {
-  var converter = new KmlToGtfsShapes(document.getElementById('output'));
+function kml_to_gtfs_shapes_init_times() {
+  var converter = new KmlToGtfsShapesTimes(document.getElementById('output'));
 
   document.getElementById('file').addEventListener(
     'change', function(event) {
       var ready = converter.handleFileSelect(event.target.files);
-      document.getElementById('convert-button').disabled = !ready;
+      document.getElementById('convert-button-stoptimes').disabled = !ready;
     });
 
   document.getElementById('generate-reverse-shapes').addEventListener(
@@ -153,7 +160,7 @@ function kml_to_gtfs_shapes_init() {
       converter.setGenerateReverseShapes(event.target.checked);
     });
 
-  document.getElementById('convert-button').addEventListener(
+  document.getElementById('convert-button-stoptimes').addEventListener(
     'click', function(event) {
       converter.convert();
     });

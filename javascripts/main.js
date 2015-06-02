@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 function KmlToGtfsShapes(outputElement) {
   this._outputElement = outputElement;
   this._file = null;

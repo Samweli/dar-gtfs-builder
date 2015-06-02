@@ -1,4 +1,3 @@
-
 function KmlToGtfsShapes(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
@@ -46,15 +45,19 @@ KmlToGtfsShapes.prototype.handleFileRead = function(text) {
 
 KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
   var name = this.getElementByTagName(placemark, 'name');
+
   if (!name) {
+    console.log("no name");
     return;
   }
-  var lineString = this.getElementByTagName(placemark, 'LineString');
-  if (!lineString) {
+  var point = this.getElementByTagName(placemark, 'Point');
+  if (!point) {
+    console.log("no lineString");
     return;
   }
-  var coordinates = this.getElementByTagName(lineString, 'coordinates');
+  var coordinates = this.getElementByTagName(point, 'coordinates');
   if (!coordinates) {
+    console.log("no coordinates");
     return;
   }
   var shapeId = name.textContent;
@@ -93,14 +96,16 @@ KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
 
 KmlToGtfsShapes.prototype.writeHeader = function() {
   this._outputElement.value =
-    'shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence\n';
+    'stop_id,stop_code,stop_name,stop_desc,stop_lat,stop_lon,zone_id,stop_url,timepoint\n';
 };
 
 KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
+  console.log("writing points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
-    var line = shapeId + ',' + point.lat + ',' + point.lng + ',' + i + '\n';
+    var line = (i+1) + ','+ (i+1) +  ','+ shapeId + ',' +',' + point.lat + ',' + point.lng + ',' + ','+ ',' + 0 + '\n';
     this._outputElement.value += line;
+    
   }
 }
 
@@ -124,4 +129,3 @@ function kml_to_gtfs_shapes_init() {
     });
 
 }
-console.log('This would be the main JS file.');

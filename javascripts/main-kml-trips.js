@@ -1,4 +1,3 @@
-
 function KmlToGtfsShapes(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
@@ -45,12 +44,31 @@ KmlToGtfsShapes.prototype.handleFileRead = function(text) {
 };
 
 KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
-  var name = this.getElementByTagName(placemark, 'name');
+
+  var eData = this.getElementByTagName(placemark, 'ExtendedData');
+  if(!eData){
+    return;
+  }
+
+   var shData = this.getElementByTagName(eData, 'SchemaData');
+   if(!shData){
+    return;
+  }
+   var sData = shData.getElementsByTagName('SimpleData');
+
+   if(!sData){
+     return;
+   }
+   var name = sData[2];
   if (!name) {
     return;
   }
-  var lineString = this.getElementByTagName(placemark, 'LineString');
-  if (!lineString) {
+  var multiGeometry = this.getElementByTagName(placemark,"MultiGeometry");
+  if(!multiGeometry){
+    return ;
+  }
+  var lineString = this.getElementByTagName(multiGeometry, 'LineString');
+  if (!lineString) {;
     return;
   }
   var coordinates = this.getElementByTagName(lineString, 'coordinates');
@@ -58,12 +76,17 @@ KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
     return;
   }
   var shapeId = name.textContent;
+
   var points = this.parseCoordinates(coordinates.textContent);
-  this.writePoints(shapeId, points);
+  console.log(this._outputElement.value+', '+shapeId);
+  if(this._outputElement.value.indexOf(shapeId) == -1){
+      this.writePoints(shapeId, points);
+  }
   if (this._generateReverseShapes) {
     this.writePoints(shapeId + '-reverse', points.reverse());
   }
 };
+
 
 KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
   for (var i = 0; i < element.childNodes.length; ++i) {
@@ -93,14 +116,16 @@ KmlToGtfsShapes.prototype.parseCoordinates = function(text) {
 
 KmlToGtfsShapes.prototype.writeHeader = function() {
   this._outputElement.value =
-    'shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence\n';
+    'route_id,service_id,trip_id,trip_headsign,direction_id,block_id,shape_id\n';
 };
 
 KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
+  console.log("writing the points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
-    var line = shapeId + ',' + point.lat + ',' + point.lng + ',' + i + '\n';
+    var line = i + ',' +shapeId.charAt(0)+'_'+ shapeId.charAt(shapeId.length - 3)+shapeId.charAt(shapeId.length - 2)+shapeId.charAt(shapeId.length - 1) + ',' + shapeId.charAt(0)+shapeId.charAt(shapeId.length - 3)+shapeId.charAt(shapeId.length - 2)+shapeId.charAt(shapeId.length - 1)+',' + shapeId +',' + '1' + ',' + ',' + shapeId + '\n';
     this._outputElement.value += line;
+    return;
   }
 }
 
@@ -124,4 +149,5 @@ function kml_to_gtfs_shapes_init() {
     });
 
 }
-console.log('This would be the main JS file.');
+
+

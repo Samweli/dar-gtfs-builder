@@ -1,4 +1,3 @@
-
 function KmlToGtfsShapes(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
@@ -45,12 +44,31 @@ KmlToGtfsShapes.prototype.handleFileRead = function(text) {
 };
 
 KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
-  var name = this.getElementByTagName(placemark, 'name');
+
+  var eData = this.getElementByTagName(placemark, 'ExtendedData');
+  if(!eData){
+    return;
+  }
+
+   var shData = this.getElementByTagName(eData, 'SchemaData');
+   if(!shData){
+    return;
+  }
+   var sData = shData.getElementsByTagName('SimpleData');
+
+   if(!sData){
+     return;
+   }
+   var name = sData[2];
   if (!name) {
     return;
   }
-  var lineString = this.getElementByTagName(placemark, 'LineString');
-  if (!lineString) {
+  var multiGeometry = this.getElementByTagName(placemark,"MultiGeometry");
+  if(!multiGeometry){
+    return ;
+  }
+  var lineString = this.getElementByTagName(multiGeometry, 'LineString');
+  if (!lineString) {;
     return;
   }
   var coordinates = this.getElementByTagName(lineString, 'coordinates');
@@ -64,6 +82,7 @@ KmlToGtfsShapes.prototype.processPlacemark = function(placemark) {
     this.writePoints(shapeId + '-reverse', points.reverse());
   }
 };
+
 
 KmlToGtfsShapes.prototype.getElementByTagName = function(element, name) {
   for (var i = 0; i < element.childNodes.length; ++i) {
@@ -97,6 +116,7 @@ KmlToGtfsShapes.prototype.writeHeader = function() {
 };
 
 KmlToGtfsShapes.prototype.writePoints = function(shapeId, points) {
+  console.log("writing the points");
   for (var i = 0; i < points.length; ++i) {
     var point = points[i];
     var line = shapeId + ',' + point.lat + ',' + point.lng + ',' + i + '\n';
@@ -124,4 +144,4 @@ function kml_to_gtfs_shapes_init() {
     });
 
 }
-console.log('This would be the main JS file.');
+

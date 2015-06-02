@@ -1,4 +1,3 @@
-
 function KmlToGtfsShapes(outputElement) {
   this._outputElement = outputElement;
   this._file = null;
@@ -124,4 +123,3 @@ function kml_to_gtfs_shapes_init() {
     });
 
 }
-console.log('This would be the main JS file.');

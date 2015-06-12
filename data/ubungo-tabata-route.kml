@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document><Folder><name>ub_tbt</name>
+<Schema name="ub_tbt" id="ub_tbt">
+	<SimpleField name="Name" type="string"></SimpleField>
+	<SimpleField name="Description" type="string"></SimpleField>
+	<SimpleField name="Id" type="int"></SimpleField>
+	<SimpleField name="name" type="string"></SimpleField>
+	<SimpleField name="Grade" type="string"></SimpleField>
+	<SimpleField name="Routes" type="string"></SimpleField>
+	<SimpleField name="Via" type="string"></SimpleField>
+	<SimpleField name="Name_1" type="string"></SimpleField>
+</Schema>
+  <Placemark>
+	<name>Tabata</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Tabata</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Tabata</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.231677634997126,-6.824791935922069</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Tabata reli</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Tabata reli</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Tabata reli</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.231525756425526,-6.825965817566789</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Aroma</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Aroma</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Aroma</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.231913543688336,-6.828741919110212</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Tabata shule</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Tabata shule</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Tabata shule</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.227556072491971,-6.830361046500102</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Tabata bima</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Tabata bima</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Tabata bima</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.22096829984001,-6.831088328652082</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Magengeni Tabata</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Magengeni Tabata</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Magengeni Tabata</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.21664812143549,-6.835668711853186</coordinates></Point>
+  </Placemark>
+  <Placemark>
+	<name>Posta Tabata</name>
+	<ExtendedData><SchemaData schemaUrl="#ub_tbt">
+		<SimpleData name="Name">Posta Tabata</SimpleData>
+		<SimpleData name="Id">0</SimpleData>
+		<SimpleData name="Routes">Ubungo - Tabata</SimpleData>
+		<SimpleData name="Via">Mandela Rd</SimpleData>
+		<SimpleData name="Name_1">Posta Tabata</SimpleData>
+	</SchemaData></ExtendedData>
+      <Point><coordinates>39.214583909069283,-6.837995528141449</coordinates></Point>
+  </Placemark>
+</Folder></Document></kml>
